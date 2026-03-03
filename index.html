@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policía Nacional - Base de Datos Central</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #00ff00;
+            --border-color: #00ff00;
+            --font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: all 0.5s ease;
+        }
+
+        /* Estilo hackeado para la Fase 3 */
+        body.hacked {
+            --bg-color: #1a0000;
+            --text-color: #ff0000;
+            --border-color: #ff0000;
+            animation: glitch 0.2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 0 #ff0000, -2px 0 0 #0000ff; }
+            50% { text-shadow: -2px 0 0 #ff0000, 2px 0 0 #0000ff; }
+            100% { text-shadow: 2px 0 0 #ff0000, -2px 0 0 #0000ff; }
+        }
+
+        .container {
+            border: 2px solid var(--border-color);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px var(--border-color);
+        }
+
+        h1, h2 {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"], input[type="password"] {
+            background: black;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            margin-top: 5px;
+            outline: none;
+        }
+
+        button {
+            background: var(--text-color);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-family);
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: white;
+        }
+
+        .fase-content {
+            display: none;
+            line-height: 1.6;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .system-msg {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .warning {
+            color: #ffaa00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <div id="login-screen" class="fase-content active">
+            <h1>Acceso Restringido</h1>
+            <p class="system-msg">Sistema de Gestión de Evidencias - Ingrese credenciales de acceso para desencriptar el archivo.</p>
+            <div class="input-group">
+                <label for="master-password">CÓDIGO DE DESBLOQUEO:</label>
+                <input type="text" id="master-password" placeholder="Ingrese el código del QR..." autocomplete="off">
+            </div>
+            <button onclick="checkPassword()">Acceder a la Base de Datos</button>
+            <p id="error-msg" style="color: red; display: none; text-align: center; margin-top: 10px;">ACCESO DENEGADO</p>
+        </div>
+
+        <div id="fase1" class="fase-content">
+            <h2>Expediente: Jhon Doe - Entrada #01</h2>
+            <p class="system-msg">Desencriptado exitoso. Nivel de seguridad: Bajo.</p>
+            <p><strong>Diario personal:</strong></p>
+            <blockquote>
+                "Soy Jhon Doe, y este es mi diario personal. Joder... No tenemos nada de él! tres meses investigando y lo único que sabemos es que es fanático del whiskey... No puedo más, quiero abrir mis regalos pero... No! aún no me rendiré! Ojalá poder encontrar a algúna persona que supiese decirme donde coño guarda las botellas un gurú del whiskey!"
+            </blockquote>
+            <button onclick="logout()">Cerrar Sesión</button>
+        </div>
+
+        <div id="fase2" class="fase-content">
+            <h2>Expediente: Jhon Doe - Entrada #42</h2>
+            <p class="system-msg">Desencriptado exitoso. Nivel de seguridad: Medio.</p>
+            <p><strong>Diario personal:</strong></p>
+            <blockquote>
+                "Diario del inspector Jhon Doe en su cuarto mes de búsqueda de sus regalos. Ha sido un mes duro, todavía no hay rastro de mis regalos. Pero hay esperanza, acabo de conseguir información valiosa, un agente de incógnito ha conseguido información en los suburbios y se conoce que nuestro villano esconde los regalos en los maleteros de los coches, quizás saque algo en claro con todo esto..."
+            </blockquote>
+            <button onclick="logout()">Cerrar Sesión</button>
+        </div>
+
+        <div id="fase3" class="fase-content">
+            <h2>SYSTEM OVERRIDE // ALERTA DE INTRUSIÓN</h2>
+            <p class="system-msg warning">El sistema ha sido comprometido. Interceptando mensaje de audio/texto...</p>
+            <blockquote>
+                "Crees que estás cerca, pero estás lejos... Nunca encontrarás tus regalos! Al menos aquellos que más deseas... porque YO soy el INSPECTOR JHON DOE! Me llevé la vida de aquel tarado que me arrebató mis regalos y se llevó el secreto a la tumba, y jamás pude encontrar mis regalos... y por eso estoy aquí, para asegurarme que tu tampoco los tengas! Quizás se me escape alguna cosa, pero es imposible que una <strong>casa como esta casa tenga ojos!!</strong> JAJAJA Aun que como siempre se me olvida donde guardo los regalos de mis victimas, tengo guardada la ubicación de tus regalos bajo una contraseña 1mposibl3 de descifrar!"
+            </blockquote>
+            
+            <div id="final-challenge" class="input-group">
+                <label>INTRODUCE LA CONTRASEÑA FINAL:</label>
+                <input type="text" id="final-password" placeholder="Reúne las letras..." autocomplete="off">
+                <button onclick="checkFinalPassword()">Desbloquear Última Ubicación</button>
+            </div>
+            <p id="final-error" style="color: white; display: none; text-align: center;">INCORRECTO. SIGUE BUSCANDO.</p>
+
+            <div id="final-clue" style="display: none; margin-top: 20px; border: 1px solid red; padding: 15px;">
+                <h3>>> ACCESO CONCEDIDO <<</h3>
+                <p>No tenías que mirar los ojos repartidos por la casa, tenías que mirar <strong>LOS OJOS QUE TIENE LA CASA!</strong></p>
+                <p><em>(Revisa el sistema de cámaras)</em></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE CONTRASEÑAS
+        // Cámbialas aquí por las que vayas a usar en tus QRs o notas
+        const PASS_FASE1 = "WHISKEY123"; // Contraseña para acceder a Fase 1
+        const PASS_FASE2 = "MALETERO24"; // Contraseña para acceder a Fase 2
+        const PASS_FASE3 = "CORRUPTO99"; // Contraseña para acceder a Fase 3 (Hackeada)
+        const PASS_FINAL = "HAPPYBIRTHDAY"; // Contraseña de los ojos
+
+        function checkPassword() {
+            const input = document.getElementById('master-password').value.trim().toUpperCase();
+            const errorMsg = document.getElementById('error-msg');
+            
+            // Ocultar error inicial
+            errorMsg.style.display = 'none';
+
+            if (input === PASS_FASE1) {
+                showScreen('fase1');
+            } else if (input === PASS_FASE2) {
+                showScreen('fase2');
+            } else if (input === PASS_FASE3) {
+                showScreen('fase3');
+                document.body.classList.add('hacked'); // Activa el tema rojo/glitch
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function checkFinalPassword() {
+            const input = document.getElementById('final-password').value.trim().toUpperCase();
+            const errorMsg = document.getElementById('final-error');
+            
+            if (input === PASS_FINAL) {
+                document.getElementById('final-clue').style.display = 'block';
+                document.getElementById('final-challenge').style.display = 'none';
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function showScreen(screenId) {
+            // Ocultar todas las pantallas
+            const screens = document.querySelectorAll('.fase-content');
+            screens.forEach(screen => screen.classList.remove('active'));
+            
+            // Mostrar la seleccionada
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function logout() {
+            document.getElementById('master-password').value = '';
+            document.body.classList.remove('hacked');
+            showScreen('login-screen');
+        }
+    </script>
+</body>
+</html>
