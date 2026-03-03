@@ -3,262 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGP - Sistema de Gestión Policial</title>
+    <title>SIP - Mossos d'Esquadra</title>
     <style>
         :root {
-            --primary-blue: #041E42; /* Azul oscuro oficial */
-            --gold-accent: #CBA052; /* Dorado Policía */
-            --bg-body: #E5E7EB;
-            --bg-container: #FFFFFF;
-            --text-main: #333333;
-            --text-light: #666666;
-            --alert-red: #8B0000;
+            --bg-color: #050505;
+            --text-color: #00ff00;
+            --border-color: #00ff00;
+            --font-family: 'Courier New', Courier, monospace;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            transition: background-color 0.5s ease;
+            transition: all 0.3s ease;
         }
 
-        /* TEMA FASE 3: BRECHA DE SEGURIDAD */
+        /* TEMA FASE 3: Hackeado con glitch esporádico */
         body.hacked {
-            --primary-blue: #2A0000;
-            --gold-accent: #FF4444;
-            --bg-body: #110000;
-            --bg-container: #1A1A1A;
-            --text-main: #F3F4F6;
-            --text-light: #9CA3AF;
+            --bg-color: #1a0000;
+            --text-color: #ff3333;
+            --border-color: #ff3333;
+            animation: sporadic-glitch 4s infinite;
+        }
+
+        /* El glitch solo ocurre entre el 93% y el 95% de la animación (cada 4 segundos) */
+        @keyframes sporadic-glitch {
+            0%, 92%, 96%, 100% { 
+                text-shadow: none; 
+                transform: translate(0, 0); 
+            }
+            93% { 
+                text-shadow: 3px 0 0 #ff0000, -3px 0 0 #0000ff; 
+                transform: translate(-2px, 1px); 
+            }
+            94% { 
+                text-shadow: -3px 0 0 #ff0000, 3px 0 0 #0000ff; 
+                transform: translate(2px, -1px); 
+            }
+            95% { 
+                text-shadow: 2px 0 0 #ff0000, -2px 0 0 #0000ff; 
+                transform: translate(-1px, 0); 
+            }
         }
 
         .container {
-            background: var(--bg-container);
+            border: 2px solid var(--border-color);
+            padding: 30px;
             max-width: 650px;
             width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.5s ease;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
         }
 
-        /* CABECERA INSTITUCIONAL */
-        .header {
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 20px 30px;
-            border-bottom: 4px solid var(--gold-accent);
+        body.hacked .container {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        h1, h2 {
             text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 15px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #D1D5DB;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        h2 {
-            color: var(--primary-blue);
-            border-bottom: 2px solid var(--bg-body);
-            padding-bottom: 10px;
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-
-        body.hacked h2 {
-            color: var(--gold-accent);
-            border-bottom: 2px solid #330000;
-        }
+        h1 { font-size: 22px; }
+        h2 { font-size: 18px; }
 
         .input-group {
-            margin: 20px 0;
+            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
         }
 
         label {
-            display: block;
             font-weight: bold;
-            margin-bottom: 8px;
-            color: var(--text-light);
-            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         input[type="text"] {
-            width: 100%;
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
             padding: 12px;
-            border: 1px solid #D1D5DB;
-            border-radius: 4px;
+            font-family: var(--font-family);
             font-size: 16px;
-            box-sizing: border-box;
-            background-color: #F9FAFB;
-            color: #111827;
+            outline: none;
+            transition: box-shadow 0.3s;
         }
 
         input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 2px rgba(4, 30, 66, 0.2);
+            box-shadow: 0 0 10px var(--border-color) inset;
         }
 
         button {
-            background-color: var(--primary-blue);
-            color: white;
+            background: var(--text-color);
+            color: #000;
             border: none;
             padding: 12px 20px;
-            font-size: 16px;
+            font-family: var(--font-family);
             font-weight: bold;
-            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
-            transition: background-color 0.2s;
+            margin-top: 15px;
+            text-transform: uppercase;
+            transition: all 0.3s;
         }
 
         button:hover {
-            background-color: #031530;
-        }
-
-        body.hacked button {
-            background-color: var(--alert-red);
-        }
-
-        body.hacked button:hover {
-            background-color: #600000;
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 15px #fff;
         }
 
         .fase-content {
             display: none;
+            line-height: 1.6;
         }
 
         .active {
             display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .system-msg {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 20px;
         }
 
         blockquote {
-            background-color: var(--bg-body);
-            border-left: 4px solid var(--primary-blue);
-            margin: 15px 0;
-            padding: 15px;
+            border-left: 3px solid var(--border-color);
+            margin: 20px 0;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
             font-style: italic;
-            color: var(--text-light);
-            border-radius: 0 4px 4px 0;
-        }
-
-        body.hacked blockquote {
-            background-color: #2A0000;
-            border-left: 4px solid var(--gold-accent);
-            color: #E5E7EB;
         }
 
         .error-msg {
-            background-color: #FEE2E2;
-            color: #B91C1C;
+            color: #fff;
+            background: #a00;
             padding: 10px;
-            border-radius: 4px;
             text-align: center;
             margin-top: 15px;
-            font-weight: bold;
             display: none;
-            border: 1px solid #F87171;
+            font-weight: bold;
         }
-
-        .success-box {
-            background-color: #ECFDF5;
-            border: 1px solid #34D399;
-            color: #065F46;
-            padding: 20px;
-            border-radius: 4px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header" id="main-header">
-            <h1>Cuerpo Nacional de Policía</h1>
-            <p>Sistema de Gestión Policial y Evidencias (SGPE)</p>
+    <div class="container" id="main-container">
+        
+        <div id="header-text">
+            <h1>MOSSOS D'ESQUADRA<br><span style="font-size: 14px; opacity: 0.8;">Sistema d'Informació Policial (SIP)</span></h1>
         </div>
 
-        <div class="content">
-            <div id="login-screen" class="fase-content active">
-                <h2>Acceso a Expedientes Clasificados</h2>
-                <p style="color: var(--text-light); font-size: 14px;">El acceso a este sistema está estrictamente monitorizado. Introduzca el código de expediente o autorización pertinente.</p>
-                
-                <div class="input-group">
-                    <label for="master-password">CÓDIGO DE AUTORIZACIÓN:</label>
-                    <input type="text" id="master-password" placeholder="Ej: EXP-2024-..." autocomplete="off">
-                </div>
-                
-                <button onclick="checkPassword()">Consultar Base de Datos</button>
-                <div id="error-msg" class="error-msg">CREDENCIALES INVÁLIDAS O CADUCADAS.</div>
+        <div id="login-screen" class="fase-content active">
+            <h2>Accés Restringit</h2>
+            <p class="system-msg">> Identificació requerida. Introdueixi el codi d'autorització per desencriptar l'expedient.</p>
+            <div class="input-group">
+                <label for="master-password">CODI DE L'EXPEDIENT:</label>
+                <input type="text" id="master-password" placeholder="_" autocomplete="off">
             </div>
+            <button onclick="checkPassword()">Accedir a la Base de Dades</button>
+            <div id="error-msg" class="error-msg">ERROR FATAL: CREDENCIALS INVÀLIDES.</div>
+        </div>
 
-            <div id="fase1" class="fase-content">
-                <h2>Expediente 24-02-A // Agente Jhon Doe</h2>
-                <p style="font-size: 14px; color: #059669; font-weight: bold;">✓ Nivel de autorización verificado.</p>
-                <p><strong>Registro recuperado de la PDA del inspector:</strong></p>
-                <blockquote>
-                    "Soy Jhon Doe, y este es mi diario personal. Joder... No tenemos nada de él! tres meses investigando y lo único que sabemos es que es fanático del whiskey... No puedo más, quiero abrir mis regalos pero... No! aún no me rendiré! Ojalá poder encontrar a algúna persona que supiese decirme donde coño guarda las botellas un gurú del whiskey!"
-                </blockquote>
-                <button onclick="logout()" style="background-color: #6B7280;">Volver al Inicio</button>
+        <div id="fase1" class="fase-content">
+            <h2>Expedient: Jhon Doe - Registre #01</h2>
+            <p class="system-msg">> Desencriptació completada. Nivell de seguretat: Baix.</p>
+            <p><strong>Diari personal recuperat:</strong></p>
+            <blockquote>
+                "Soy Jhon Doe, y este es mi diario personal. Joder... No tenemos nada de él! tres meses investigando y lo único que sabemos es que es fanático del whiskey... No puedo más, quiero abrir mis regalos pero... No! aún no me rendiré! Ojalá poder encontrar a algúna persona que supiese decirme donde coño guarda las botellas un gurú del whiskey!"
+            </blockquote>
+            <button onclick="logout()">Tancar Sessió</button>
+        </div>
+
+        <div id="fase2" class="fase-content">
+            <h2>Expedient: Jhon Doe - Registre #42</h2>
+            <p class="system-msg">> Desencriptació completada. Nivell de seguretat: Mitjà.</p>
+            <p><strong>Diari personal recuperat:</strong></p>
+            <blockquote>
+                "Diario del inspector Jhon Doe en su cuarto mes de búsqueda de sus regalos. Ha sido un mes duro, todavía no hay rastro de mis regalos. Pero hay esperanza, acabo de conseguir información valiosa, un agente de incógnito ha conseguido información en los suburbios y se conoce que nuestro villano esconde los regalos en los maleteros de los coches, quizás saque algo en claro con todo esto..."
+            </blockquote>
+            <button onclick="logout()">Tancar Sessió</button>
+        </div>
+
+        <div id="fase3" class="fase-content">
+            <h2>OVERRIDE DEL SISTEMA // ALERTA D'INTRUSIÓ</h2>
+            <p class="system-msg" style="color: #fff;">> EL SISTEMA HA ESTAT COMPROMÈS. INTERCEPTANT MISSATGE...</p>
+            <blockquote>
+                "Crees que estás cerca, pero estás lejos... Nunca encontrarás tus regalos! Al menos aquellos que más deseas... porque YO soy el INSPECTOR JHON DOE! Me llevé la vida de aquel tarado que me arrebató mis regalos y se llevó el secreto a la tumba, y jamás pude encontrar mis regalos... y por eso estoy aquí, para asegurarme que tu tampoco los tengas! Quizás se me escape alguna cosa, pero es imposible que una <strong>casa como esta casa tenga ojos!!</strong> JAJAJA Aun que como siempre se me olvida donde guardo los regalos de mis victimas, tengo guardada la ubicación de tus regalos bajo una contraseña 1mposibl3 de descifrar!"
+            </blockquote>
+            
+            <div id="final-challenge" class="input-group">
+                <label>INTRODUEIX LA CONTRASENYA FINAL:</label>
+                <input type="text" id="final-password" placeholder="_" autocomplete="off">
+                <button onclick="checkFinalPassword()">Forçar Desbloqueig</button>
             </div>
+            <div id="final-error" class="error-msg">DENEGAT. CONTINUA BUSCANT.</div>
 
-            <div id="fase2" class="fase-content">
-                <h2>Expediente 24-02-B // Agente Jhon Doe</h2>
-                <p style="font-size: 14px; color: #059669; font-weight: bold;">✓ Nivel de autorización verificado.</p>
-                <p><strong>Registro recuperado de la red segura:</strong></p>
-                <blockquote>
-                    "Diario del inspector Jhon Doe en su cuarto mes de búsqueda de sus regalos. Ha sido un mes duro, todavía no hay rastro de mis regalos. Pero hay esperanza, acabo de conseguir información valiosa, un agente de incógnito ha conseguido información en los suburbios y se conoce que nuestro villano esconde los regalos en los maleteros de los coches, quizás saque algo en claro con todo esto..."
-                </blockquote>
-                <button onclick="logout()" style="background-color: #6B7280;">Volver al Inicio</button>
-            </div>
-
-            <div id="fase3" class="fase-content">
-                <h2>ALERTA: BRECHA DE SEGURIDAD DETECTADA</h2>
-                <p style="color: var(--gold-accent); font-weight: bold;">El usuario activo ha tomado control del servidor.</p>
-                <blockquote>
-                    "Crees que estás cerca, pero estás lejos... Nunca encontrarás tus regalos! Al menos aquellos que más deseas... porque YO soy el INSPECTOR JHON DOE! Me llevé la vida de aquel tarado que me arrebató mis regalos y se llevó el secreto a la tumba, y jamás pude encontrar mis regalos... y por eso estoy aquí, para asegurarme que tu tampoco los tengas! Quizás se me escape alguna cosa, pero es imposible que una <strong>casa como esta casa tenga ojos!!</strong> JAJAJA Aun que como siempre se me olvida donde guardo los regalos de mis victimas, tengo guardada la ubicación de tus regalos bajo una contraseña 1mposibl3 de descifrar!"
-                </blockquote>
-                
-                <div id="final-challenge" class="input-group">
-                    <label style="color: var(--text-main);">CLAVE DE ENCRIPTACIÓN FINAL:</label>
-                    <input type="text" id="final-password" placeholder="Introduce la clave extraída..." autocomplete="off">
-                    <button onclick="checkFinalPassword()">Forzar Desbloqueo</button>
-                </div>
-                <div id="final-error" class="error-msg" style="background-color: #4A0000; color: #FFB3B3; border-color: #FF0000;">CLAVE INCORRECTA. ACCESO DENEGADO.</div>
-
-                <div id="final-clue" class="success-box" style="display: none; background-color: #111827; border-color: var(--gold-accent); color: white;">
-                    <h3 style="color: var(--gold-accent); margin-top: 0;">>> CORTAFUEGOS VULNERADO <<</h3>
-                    <p>No tenías que mirar los ojos repartidos por la casa, tenías que mirar <strong>LOS OJOS QUE TIENE LA CASA!</strong></p>
-                    <p style="color: #9CA3AF;"><em>(Revisa el feed del sistema de cámaras de seguridad)</em></p>
-                </div>
+            <div id="final-clue" style="display: none; margin-top: 20px; border: 1px solid var(--border-color); padding: 15px; background: rgba(255,0,0,0.1);">
+                <h3>>> ACCÉS CONCEDIT <<</h3>
+                <p>No tenías que mirar los ojos repartidos por la casa, tenías que mirar <strong>LOS OJOS QUE TIENE LA CASA!</strong></p>
+                <p><em>(Revisa el sistema de cámaras)</em></p>
             </div>
         </div>
     </div>
 
     <script>
-        const PASS_FASE1 = "WHISKEY123"; 
-        const PASS_FASE2 = "MALETERO24"; 
-        const PASS_FASE3 = "CORRUPTO99"; 
+        const PASS_FASE1 = "JHONNIEWALKER"; 
+        const PASS_FASE2 = "MALETEROTRAKETERO"; 
+        const PASS_FASE3 = "SOLUCIONFINAL"; 
         const PASS_FINAL = "HAPPYBIRTHDAY"; 
 
         function checkPassword() {
@@ -274,9 +245,7 @@
             } else if (input === PASS_FASE3) {
                 showScreen('fase3');
                 document.body.classList.add('hacked');
-                document.getElementById('main-header').innerHTML = '<h1>>> ACCESO NO AUTORIZADO <<</h1><p>Conexión interceptada</p>';
-                document.getElementById('main-header').style.backgroundColor = '#4A0000';
-                document.getElementById('main-header').style.borderBottomColor = '#FF0000';
+                document.getElementById('header-text').innerHTML = '<h1>>> CONNEXIÓ INTERCEPTADA <<<br><span style="font-size: 14px;">Xarxa no segura</span></h1>';
             } else {
                 errorMsg.style.display = 'block';
             }
@@ -304,12 +273,7 @@
         function logout() {
             document.getElementById('master-password').value = '';
             document.body.classList.remove('hacked');
-            
-            // Restaurar cabecera original
-            document.getElementById('main-header').innerHTML = '<h1>Cuerpo Nacional de Policía</h1><p>Sistema de Gestión Policial y Evidencias (SGPE)</p>';
-            document.getElementById('main-header').style.backgroundColor = 'var(--primary-blue)';
-            document.getElementById('main-header').style.borderBottomColor = 'var(--gold-accent)';
-            
+            document.getElementById('header-text').innerHTML = '<h1>MOSSOS D\'ESQUADRA<br><span style="font-size: 14px; opacity: 0.8;">Sistema d\'Informació Policial (SIP)</span></h1>';
             showScreen('login-screen');
         }
     </script>
